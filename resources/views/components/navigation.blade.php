@@ -1,11 +1,7 @@
 <nav class="bg-white shadow mb-4">
     <div class="container mx-auto px-4 py-4 flex justify-between items-center">
         <div class="text-xl font-bold">
-            @auth
-                <a href="{{ route('dashboard') }}" class="text-blue-500 hover:text-blue-700">Fin Platform</a>
-            @else
-                <a href="{{ route('welcome') }}" class="text-blue-500 hover:text-blue-700">Fin Platform</a>
-            @endauth
+            <a href="{{ route('welcome') }}" class="text-blue-500 hover:text-blue-700">Fin Platform</a>
         </div>
         <div>
             @auth
