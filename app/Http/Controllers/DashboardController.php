@@ -11,20 +11,24 @@ class DashboardController extends Controller
 {
     public function index()
     {
-        $totalClients = Client::count();
-        $pendingInvitations = Invitation::count();
-        $documentsUploaded = Document::count();
-        $verificationComplete = Client::where('verified', true)->count();
-        $recentActivities = []; // Fetch recent activities
-        $recentDocuments = Document::orderBy('created_at', 'desc')->take(5)->get();
+        try {
+            $totalClients = Client::count();
+            $pendingInvitations = Invitation::count();
+            $documentsUploaded = Document::count();
+            $verificationComplete = Client::where('verified', true)->count();
+            $recentActivities = []; // Fetch recent activities
+            $recentDocuments = Document::orderBy('created_at', 'desc')->take(5)->get();
 
-        return view('dashboard', compact(
-            'totalClients',
-            'pendingInvitations',
-            'documentsUploaded',
-            'verificationComplete',
-            'recentActivities',
-            'recentDocuments'
-        ));
+            return view('dashboard', compact(
+                'totalClients',
+                'pendingInvitations',
+                'documentsUploaded',
+                'verificationComplete',
+                'recentActivities',
+                'recentDocuments'
+            ));
+        } catch (\Exception $e) {
+            return view('dashboard')->withErrors(['error' => $e->getMessage()]);
+        }
     }
 }
