@@ -4,6 +4,13 @@
 <div class="container mx-auto px-4 py-6">
     <h1 class="text-2xl font-bold mb-4">Dashboard</h1>
 
+    @if ($errors->any())
+        <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
+            <strong class="font-bold">Error:</strong>
+            <span class="block sm:inline">{{ $errors->first() }}</span>
+        </div>
+    @endif
+
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
         <div class="bg-white p-4 rounded shadow">
             <h2 class="text-xl font-semibold">Total Clients</h2>
