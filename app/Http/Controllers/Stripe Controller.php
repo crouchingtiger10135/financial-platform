@@ -19,6 +19,9 @@ class StripeController extends Controller
         try {
             $client_id = $request->input('client_id');
 
+            // Log the received client_id
+            Log::info('Creating Stripe verification session for client_id: ' . $client_id);
+
             $session = VerificationSession::create([
                 'type' => 'document',
                 'metadata' => [
@@ -29,7 +32,13 @@ class StripeController extends Controller
 
             return response()->json(['sessionId' => $session->id]);
         } catch (\Exception $e) {
-            Log::error('Error creating Stripe verification session: ' . $e->getMessage());
+            // Log the error message and stack trace
+            Log::error('Error creating Stripe verification session: ' . $e->getMessage(), [
+                'client_id' => $client_id,
+                'user_id' => auth()->id(),
+                'trace' => $e->getTraceAsString(),
+            ]);
+
             return response()->json(['error' => 'Failed to create verification session.'], 500);
         }
     }
