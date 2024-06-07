@@ -28,7 +28,10 @@ class AddFilePathToClientsTable extends Migration
     public function down()
     {
         Schema::table('clients', function (Blueprint $table) {
-            $table->dropColumn('file_path');
+            if (Schema::hasColumn('clients', 'file_path')) {
+                $table->dropColumn('file_path');
+            }
         });
     }
 }
+
