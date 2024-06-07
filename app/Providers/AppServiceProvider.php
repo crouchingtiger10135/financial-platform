@@ -25,5 +25,6 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         Blade::component('components.navigation', 'navigation');
+        \URL::forceScheme('https');
     }
 }
