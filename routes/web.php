@@ -54,7 +54,13 @@ Route::middleware(['auth'])->group(function () {
 });
 
 // Invitation Routes
+Route::middleware(['auth'])->group(function () {
+    Route::post('/send-invitation', [InvitationController::class, 'sendInvitation'])->name('send-invitation');
+});
+
 Route::middleware(['invitation.access'])->group(function () {
     Route::get('/invitations/{token}', [InvitationController::class, 'showInvitationForm'])->name('invitations.complete');
-    Route::post('/invitations/{token}', [InvitationController::class
+    Route::post('/invitations/{token}', [InvitationController::class, 'completeInvitation'])->name('invitations.complete.post');
+});
 
+require __DIR__.'/auth.php';
