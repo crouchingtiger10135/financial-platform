@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Client;
 use App\Models\Document;
 use App\Models\Invitation;
+use Illuminate\Support\Facades\Log;
 
 class DashboardController extends Controller
 {
@@ -28,6 +29,7 @@ class DashboardController extends Controller
                 'recentDocuments'
             ));
         } catch (\Exception $e) {
+            Log::error('DashboardController@index error: ' . $e->getMessage());
             return view('dashboard')->withErrors(['error' => $e->getMessage()]);
         }
     }
