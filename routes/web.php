@@ -9,6 +9,7 @@ use App\Http\Controllers\DocumentController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\NotificationsController;
 use App\Http\Controllers\InvitationController;
+use App\Http\Controllers\StripeController;
 
 // Welcome Route
 Route::get('/', function () {
@@ -39,7 +40,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/clients', [ClientController::class, 'store'])->name('clients.store');
     Route::put('/clients/{client}', [ClientController::class, 'update'])->name('clients.update');
     Route::delete('/clients/{client}', [ClientController::class, 'destroy'])->name('clients.destroy');
-    Route::post('/start-verification/{client}', [ClientController::class, 'startVerification'])->middleware('auth')->name('start-verification');
+    Route::post('/start-verification/{client}', [ClientController::class, 'startVerification'])->name('start-verification');
 });
 
 // Document Routes
@@ -62,5 +63,8 @@ Route::middleware(['invitation.access'])->group(function () {
     Route::get('/invitations/{token}', [InvitationController::class, 'showInvitationForm'])->name('invitations.complete');
     Route::post('/invitations/{token}', [InvitationController::class, 'completeInvitation'])->name('invitations.complete.post');
 });
+
+// Stripe Verification Route
+Route::post('/create-verification-session', [StripeController::class, 'createVerificationSession'])->name('create-verification-session');
 
 require __DIR__.'/auth.php';
