@@ -146,13 +146,16 @@
 <!-- Stripe.js -->
 <script src="https://js.stripe.com/v3/"></script>
 <script>
-    document.getElementById('verify-identity-button').addEventListener('click', function() {
+    document.querySelector('.start-verification').addEventListener('click', function() {
+        const clientId = this.getAttribute('data-client-id');
+
         fetch('/create-verification-session', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
                 'X-CSRF-TOKEN': '{{ csrf_token() }}'
-            }
+            },
+            body: JSON.stringify({ client_id: clientId })
         })
         .then(response => response.json())
         .then(data => {
