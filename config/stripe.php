@@ -2,5 +2,5 @@
 
 return [
     'secret' => env('STRIPE_SECRET'),
-    'key' => env('STRIPE_KEY'),
+    'publishable' => env('STRIPE_PUBLISHABLE'),
 ];
