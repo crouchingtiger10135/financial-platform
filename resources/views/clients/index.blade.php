@@ -146,29 +146,31 @@
 <!-- Stripe.js -->
 <script src="https://js.stripe.com/v3/"></script>
 <script>
-    document.querySelectorAll('.start-verification').forEach(button => {
-        button.addEventListener('click', function() {
-            const clientId = this.getAttribute('data-client-id');
+    document.addEventListener('DOMContentLoaded', function() {
+        document.querySelectorAll('.start-verification').forEach(button => {
+            button.addEventListener('click', function() {
+                const clientId = this.getAttribute('data-client-id');
 
-            fetch('/create-verification-session', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                },
-                body: JSON.stringify({ client_id: clientId })
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.error) {
-                    console.error('Error:', data.error);
-                } else {
-                    const stripe = Stripe('{{ config('services.stripe.key') }}');
-                    stripe.redirectToCheckout({ sessionId: data.sessionId });
-                }
-            })
-            .catch((error) => {
-                console.error('Error:', error);
+                fetch('/create-verification-session', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                    },
+                    body: JSON.stringify({ client_id: clientId })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.error) {
+                        console.error('Error:', data.error);
+                    } else {
+                        const stripe = Stripe('{{ config('services.stripe.key') }}');
+                        stripe.redirectToCheckout({ sessionId: data.sessionId });
+                    }
+                })
+                .catch((error) => {
+                    console.error('Error:', error);
+                });
             });
         });
     });
