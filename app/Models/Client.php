@@ -13,7 +13,6 @@ class Client extends Model
         'name',
         'email',
         'phone',
-        'identity_verification_status',
     ];
 
     public function documents()
