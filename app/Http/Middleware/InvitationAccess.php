@@ -1,3 +1,4 @@
+<?php 
 
 // app/Http/Middleware/InvitationAccess.php
 
