@@ -2,22 +2,29 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Client;
-use App\Models\Activity;
 use Illuminate\Http\Request;
+use App\Models\Client;
+use App\Models\Document;
+use App\Models\Invitation;
 
 class DashboardController extends Controller
 {
     public function index()
     {
         $totalClients = Client::count();
-        $recentActivity = Activity::latest()->take(10)->get();
-        $statusBreakdown = [
-            'pending' => Client::where('status', 'pending')->count(),
-            'approved' => Client::where('status', 'approved')->count(),
-            'rejected' => Client::where('status', 'rejected')->count(),
-        ];
+        $pendingInvitations = Invitation::count();
+        $documentsUploaded = Document::count();
+        $verificationComplete = Client::where('verified', true)->count();
+        $recentActivities = []; // Fetch recent activities
+        $recentDocuments = Document::orderBy('created_at', 'desc')->take(5)->get();
 
-        return view('dashboard', compact('totalClients', 'recentActivity', 'statusBreakdown'));
+        return view('dashboard', compact(
+            'totalClients',
+            'pendingInvitations',
+            'documentsUploaded',
+            'verificationComplete',
+            'recentActivities',
+            'recentDocuments'
+        ));
     }
 }
