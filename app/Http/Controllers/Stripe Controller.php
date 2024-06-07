@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Stripe\Stripe;
 use Stripe\Identity\VerificationSession;
+use Illuminate\Support\Facades\Log;
 
 class StripeController extends Controller
 {
@@ -28,7 +29,8 @@ class StripeController extends Controller
 
             return response()->json(['sessionId' => $session->id]);
         } catch (\Exception $e) {
-            return response()->json(['error' => $e->getMessage()], 500);
+            Log::error('Error creating Stripe verification session: ' . $e->getMessage());
+            return response()->json(['error' => 'Failed to create verification session.'], 500);
         }
     }
 }
