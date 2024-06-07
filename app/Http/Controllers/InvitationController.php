@@ -9,22 +9,29 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\InvitationMail;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Log;
 
 class InvitationController extends Controller
 {
     public function sendInvitation(Request $request)
     {
         $request->validate([
-            'email' => 'required|email|unique:invitations,email',
+            'email' => 'required|email',
         ]);
 
         $token = Str::random(60);
-        $invitation = Invitation::create([
-            'email' => $request->email,
-            'token' => $token,
-        ]);
+        Log::info("Generated Token: " . $token);
+
+        // Find existing invitation or create a new one
+        $invitation = Invitation::updateOrCreate(
+            ['email' => $request->email],
+            ['token' => $token]
+        );
+
+        Log::info("Invitation Created/Updated: " . $invitation->id);
 
         Mail::to($request->email)->send(new InvitationMail($invitation));
+        Log::info("Email Sent to: " . $request->email);
 
         return back()->with('status', 'Invitation sent successfully.');
     }
