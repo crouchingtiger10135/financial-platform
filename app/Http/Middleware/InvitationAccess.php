@@ -1,6 +1,4 @@
-<?php 
-
-// app/Http/Middleware/InvitationAccess.php
+<?php
 
 namespace App\Http\Middleware;
 
