@@ -5,7 +5,7 @@ namespace App\Mail;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
-use Illuminate\Contracts\Queue\ShouldQueue;
+use App\Models\Invitation;
 
 class InvitationMail extends Mailable
 {
@@ -13,14 +13,15 @@ class InvitationMail extends Mailable
 
     public $invitation;
 
-    public function __construct($invitation)
+    public function __construct(Invitation $invitation)
     {
         $this->invitation = $invitation;
     }
 
     public function build()
     {
-        return $this->subject('You are invited!')
-                    ->view('emails.invitation');
+        return $this->view('emails.invitation')->with([
+            'invitation' => $this->invitation,
+        ]);
     }
 }
