@@ -16,9 +16,12 @@ class StripeController extends Controller
     public function createVerificationSession(Request $request)
     {
         try {
+            $client_id = $request->input('client_id');
+
             $session = VerificationSession::create([
                 'type' => 'document',
                 'metadata' => [
+                    'client_id' => $client_id,
                     'user_id' => auth()->id(),
                 ],
             ]);
