@@ -13,8 +13,7 @@ class CreateClientsTable extends Migration
             $table->string('name');
             $table->string('email')->unique();
             $table->string('phone')->nullable();
-            $table->string('status')->default('pending');
-            $table->string('file_path')->nullable(); // Add this line
+            $table->boolean('verified')->default(false);
             $table->timestamps();
         });
     }
