@@ -4,23 +4,31 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
+class AddFilePathToClientsTable extends Migration
 {
     /**
      * Run the migrations.
+     *
+     * @return void
      */
     public function up()
     {
         Schema::table('clients', function (Blueprint $table) {
-            $table->string('file_path')->nullable()->after('status');
+            if (!Schema::hasColumn('clients', 'file_path')) {
+                $table->string('file_path')->nullable()->after('status');
+            }
         });
     }
-    
+
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
     public function down()
     {
         Schema::table('clients', function (Blueprint $table) {
             $table->dropColumn('file_path');
         });
     }
-    
-};
+}
