@@ -45,4 +45,3 @@ class Kernel extends HttpKernel
         'invitation.access' => \App\Http\Middleware\InvitationAccess::class, // Add this line
     ];
 }
-
