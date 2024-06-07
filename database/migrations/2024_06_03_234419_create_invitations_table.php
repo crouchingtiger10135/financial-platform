@@ -10,8 +10,9 @@ class CreateInvitationsTable extends Migration
     {
         Schema::create('invitations', function (Blueprint $table) {
             $table->id();
-            $table->string('email')->unique();
+            $table->string('email');
             $table->string('token')->unique();
+            $table->boolean('completed')->default(false);
             $table->timestamps();
         });
     }
